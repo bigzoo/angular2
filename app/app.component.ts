@@ -11,18 +11,13 @@ import { Task } from './task.model';
       [childTaskList]="masterTaskList"
       (clickSender)="showDetails($event)"
      ></task-list>
-    <div *ngIf="selectedTask">
-      <h1>Edit Task</h1>
-      <div>
-        <label>Enter Task Description:</label>
-        <input [(ngModel)]="selectedTask.description">
-      </div>
-      <div>
-        <label>Enter Task ID:</label>
-        <input [(ngModel)]="selectedTask.id">
-        <button (click)="finishedEditing()">Done</button>
-      </div>
-    </div>
+    <edit-task
+      [childSelectedTask]="selectedTask"
+      (doneClickedSender)="finishedEditing()"
+    ></edit-task>
+    <new-task
+      (newTaskSender)="addTask($event)"
+    ></new-task>
   </div>
   `
 })
@@ -40,5 +35,8 @@ export class AppComponent {
   }
   finishedEditing() {
     this.selectedTask = null;
+  }
+  addTask(newTaskFromChild: Task) {
+    this.masterTaskList.push(newTaskFromChild);
   }
 }
